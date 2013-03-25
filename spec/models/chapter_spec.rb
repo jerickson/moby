@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Chapter do
   
   before(:each) do
-  	@book = FactoryGirl.create(:book)
+    @book = FactoryGirl.create(:book)
   end
 
   it "should require a book" do
@@ -11,11 +11,11 @@ describe Chapter do
   end
 
   it "should require a name" do
-  	@book.chapters.create(:position => 1).should have(1).error_on(:name)
+    @book.chapters.create(:position => 1).should have(1).error_on(:name)
   end
 
   it "should require a position" do
-  	@book.chapters.create(:name => "Chapter 1").should have(1).error_on(:position)
+    @book.chapters.create(:name => "Chapter 1").should have(1).error_on(:position)
   end
 
   it "should not allow duplicate names in a book" do

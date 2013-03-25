@@ -5,23 +5,23 @@ describe Api::V1::BooksController do
   describe "GET on /api/v1/books" do
 
     before(:each) do
-	   @book = FactoryGirl.create(:book)
-  	end
+     @book = FactoryGirl.create(:book)
+    end
 
     let(:url) {"/api/v1/books"}
 
-  	it "should return the list of all books" do
-  	  get "#{url}"
-  	  response.should be_success
-  	  json = JSON.parse(response.body)
-  	  json.count.should eq(1)
-  	end
+    it "should return the list of all books" do
+      get "#{url}"
+      response.should be_success
+      json = JSON.parse(response.body)
+      json.count.should eq(1)
+    end
 
-  	it "should return the correct book" do
-  	  get "#{url}"
-  	  response.should be_success
-  	  response.body.should eql([@book].to_json)
-  	end
+    it "should return the correct book" do
+      get "#{url}"
+      response.should be_success
+      response.body.should eql([@book].to_json)
+    end
 
   end
 
@@ -52,21 +52,21 @@ describe Api::V1::BooksController do
       @author = FactoryGirl.create(:author)
     end
 
-  	let(:url) {"/api/v1/books"}
+    let(:url) {"/api/v1/books"}
 
-  	it "should create an book" do
-  	  post "#{url}.json", :book => {
+    it "should create an book" do
+      post "#{url}.json", :book => {
                   :author_id => @author.id,
-  	  						:title => "Billy Budd",
-  	  						:isbn13 => "999999999999"}
+                  :title => "Billy Budd",
+                  :isbn13 => "999999999999"}
 
-  	  book = Book.find_by_title("Billy Budd")
-  	  route = "#{url}/#{book.id}"
+      book = Book.find_by_title("Billy Budd")
+      route = "#{url}/#{book.id}"
 
       response.status.should eq(201)
       response.headers["Location"].should eql(route)
-	    response.body.should eql(book.to_json)
-  	end
+      response.body.should eql(book.to_json)
+    end
 
     it "should fail when book is invalid" do
       post "#{url}.json", :book => {

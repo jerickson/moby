@@ -4,24 +4,24 @@ describe Api::V1::AuthorsController do
 
   describe "GET on /api/v1/authors" do
 
-  	before(:each) do
+    before(:each) do
       @author = FactoryGirl.create(:author)
-  	end
+    end
 
-  	it "should return the list of all authors" do
-  	  get '/api/v1/authors'
-  	  response.should be_success
-  	  json = JSON.parse(response.body)
-  	  json.count.should eq(1)
-  	end
+    it "should return the list of all authors" do
+      get '/api/v1/authors'
+      response.should be_success
+      json = JSON.parse(response.body)
+      json.count.should eq(1)
+    end
 
-  	it "should return the correct authors" do
-  	  get '/api/v1/authors'
-  	  response.should be_success
-  	  json = JSON.parse(response.body)
-  	  json.first["first_name"].should eq("Herman")
-  	  json.first["last_name"].should eq("Melville")
-  	end
+    it "should return the correct authors" do
+      get '/api/v1/authors'
+      response.should be_success
+      json = JSON.parse(response.body)
+      json.first["first_name"].should eq("Herman")
+      json.first["last_name"].should eq("Melville")
+    end
 
   end
 
@@ -48,20 +48,20 @@ describe Api::V1::AuthorsController do
 
   describe "POST on /api/v1/authors" do
 
-  	let(:url) {"/api/v1/authors"}
+    let(:url) {"/api/v1/authors"}
 
-  	it "should create an author" do
-  	  post "#{url}.json", :author => {
-  	  						:first_name => "James",
-  	  						:last_name => "Joyce"}
+    it "should create an author" do
+      post "#{url}.json", :author => {
+                  :first_name => "James",
+                  :last_name => "Joyce"}
 
-  	  author = Author.find_by_first_name_and_last_name("James", "Joyce")
-  	  route = "#{url}/#{author.id}"
+      author = Author.find_by_first_name_and_last_name("James", "Joyce")
+      route = "#{url}/#{author.id}"
 
       response.status.should eq(201)
       response.headers["Location"].should eql(route)
-	    response.body.should eql(author.to_json)
-  	end
+      response.body.should eql(author.to_json)
+    end
 
     it "should fail when author is invalid" do
       post "#{url}.json", :author => {
